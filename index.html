@@ -2,6 +2,7 @@
 <html ng-app="powerdown">
 <head>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/datepicker3.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Powerdown</title>
 </head>
@@ -15,7 +16,7 @@
         <div class="col-md-12">
           <form role="form">
             <div class="form-group">
-              <label for="building-type"> Select your residence type.</label>
+              <label for="building-type"> Select your residence type:</label>
               <label class="radio-inline" ng-repeat="building_type in building_types">
                 <input type="radio" name="building-type" value={{building_type.id}} ng-model="formCtrl.building_type">{{building_type.name}}
               </label>
@@ -26,17 +27,20 @@
                 <input type="radio" name="energy-type" value="{{energy_type.id}}" ng-model="formCtrl.energy_type"> {{energy_type.name}}
               </label>
             </div>
-
-              Enter the last day of the period for your first bill. </br>
-             <div class="input-group date">
-                <input type="text" class="form-control">
-                  <span class="input-group-addon">
-                    <i class="glyphicon glyphicon-th"></i>
-                  </span>
+            <label for="billing-period">Enter the last day of the period for your first bill. </label>
+            <div class="input-group date">
+              <input type="text" name="billing-period" class="form-control">
+                <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-th"></i>
+                </span>
+            </div>
+            <div class="input-group temperature">
+              <label for="thermostat-threshold"> Enter the range of your thermostat threshold </label>  
+              <input type="text" class="form-control bfh-number" value="25">
             </div>
               <!-- buttons at the bottom of the page -->
             <ul class="pager">
-              <li class="previous disabled"><a href="regression.html">&larr; Previous Step</a></li>
+             
               <li class="next"><a href="regression.html">Next Step &rarr;</a></li>
             </ul>
           </form>
@@ -46,9 +50,12 @@
         <graphpage></graphpage>
       </div>
     </div>
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
-    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+    <script>$('.input-group.date').datepicker({
+    });</script>
     <script type="text/javascript" src="app.js"></script>
 </body>
 </html>
