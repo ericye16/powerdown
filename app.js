@@ -24,6 +24,8 @@
       {id: GAS_TYPE,
         name: "Gas"},
     ];
+    
+    var bills = [];
   
     var app = angular.module('powerdown', []);
     
@@ -33,6 +35,8 @@
 
       this.building_type = "";
       this.energy_type = "";
+      
+      this.current_bill = {};
       
       if (this.energy_type === ELECTRIC_TYPE) {
         /*
@@ -50,7 +54,7 @@
          * rate it comes at.
          * These are all on page 2 of the bill.
          */
-        this.gasUse = {energy: 0, rate: 0};
+        this.gasUse = [{energy: 0, rate: 0}];
       }
       
       
