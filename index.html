@@ -1,13 +1,37 @@
 <!DOCTYPE html>
-<html>
-<head ng-app="powerdown">
+<html ng-app="powerdown">
+<head>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Powerdown</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container" ng-controller="InitialFormController as formCtrl">
         <h1>Powerdown</h1>
+        <div class="alert alert-info" role="alert">
+          <h4>
+            Please prepare at least two power bills--we'll be asking you for some numbers off of them soon. They don't have to be from consecutive months.
+          </h4>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-control">
+              <p> Select your residence type. </p>
+              <div class="btn-group btn-group-justified" ng-repeat="building_type in building_types">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default">{{building_type}}</button>
+                </div>
+              </div> <!--end of buttons -->
+              <p> Which bill would you like to analyze? </p>
+              <div class="form-group" ng-repeat="energy_type in energy_types">
+                <label class="radio-inline">
+                  <input type="radio" name="energy-type" value="electric"> {{energy_type}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
     </div>
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
