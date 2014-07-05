@@ -54,3 +54,6 @@ DataCatalogue
 
 #log files
 *.log
+
+node_modules
+
