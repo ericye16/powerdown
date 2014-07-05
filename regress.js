@@ -1,4 +1,4 @@
-function findLineByLeastSquares(values_x, values_y) {
+function findLineByLeastSquares(values_x, values_y) {//thanks to http://dracoblue.net/dev/linear-least-squares-in-javascript/
     var sum_x = 0;
     var sum_y = 0;
     var sum_xy = 0;
