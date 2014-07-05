@@ -1,8 +1,6 @@
 <div class="col-md-12">
-  <body>
-  <script src="jquery.js"></script>
   <script>
-    $.get("http://weather.gc.ca/rss/city/on-143_e.xml", function (data) {
+    $.get("http://stackoverflow.com/feeds/question/10943544", function (data) {
       $(data).find("entry").each(function () {
         var el = $(this);
 
@@ -13,5 +11,4 @@
       });
     });
   </script>
-  </body>
 </div>
