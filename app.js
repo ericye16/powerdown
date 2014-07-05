@@ -38,6 +38,17 @@
       
       this.current_bill = {};
       
+      this.pageNumber = 1;
+      this.page = function(n) {
+        return n === this.pageNumber;
+      }
+      this.backPage = function() {
+        this.PageNumber -= 1;
+      }
+      this.nextPage = function() {
+        this.PageNumber += 1;
+      }
+      
       if (this.energy_type === ELECTRIC_TYPE) {
         /*
          * Electric power on bills is tiered.
@@ -70,7 +81,14 @@
     app.directive('formpage', function() {
       return {
         restrict: 'E',
-        templateUrl: 'formpage.html'
+        templateUrl: 'formpage.html',
+      }
+    })
+    
+    app.directive('improvementspage', function() {
+      return {
+        restrict: 'E',
+        templateUrl: 'improvements.html'
       }
     })
 })();

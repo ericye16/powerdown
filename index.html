@@ -12,12 +12,19 @@
       <div class="alert alert-info" role="alert">
         Prepare two or more months of heating (electric or gas) bills.
       </div>
-      <div class="row">
+      <div class="row" ng-show="formCtrl.page(1)">
         <formpage></formpage>
       </div>
-      <div class="row">
+      <div class="row" ng-show="formCtrl.page(2)">
         <graphpage></graphpage>
       </div>
+      <div class="row" ng-show="formCtrl.page(3)">
+        <improvementspage></improvementspage>3
+      </div>
+      <ul class="pager">
+        <li class="previous" ng-hide="formCtrl.page(1)"><a href="" ng-click="formCtrl.backPage()">&larr; Previous Step</a></li>
+        <li class="next" ng-hide="formCtrl.page(3)"><a href="" ng-click="formCtrl.nextPage()">Next Step &rarr;</a></li>
+      </ul>
     </div>
     <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
