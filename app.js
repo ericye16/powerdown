@@ -66,4 +66,11 @@
         templateUrl: "graphpage.html",
       }
     })
+    
+    app.directive('formpage', function() {
+      return {
+        restrict: 'E',
+        templateUrl: 'formpage.html'
+      }
+    })
 })();
