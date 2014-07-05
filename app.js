@@ -29,15 +29,14 @@
   
     var app = angular.module('powerdown', []);
     
-    app.controller('InitialFormController', function($scope) {
+    app.controller('InitialFormController', ['$scope', '$http', function($scope, $http) {
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
 
       this.building_type = "";
       this.energy_type = "";
-      
       this.current_bill = {};
-      
+
       this.pageNumber = 1;
       this.page = function(n) {
         return n === this.pageNumber;
@@ -49,6 +48,17 @@
         this.PageNumber += 1;
       }
       
+      var ctrl = this;
+      $http({method: 'GET', url: 'http://api.openweathermap.org/data/2.5/forecast?q=Toronto,ca&mode=xml'}).success(function(data) {
+          //console.log(data);
+          //ctrl.weather = data;
+          
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(data, "application/xml");
+          ctrl.weather = doc.getElementsByTagName("temperature")[0].getAttribute('value');
+          //console.log(temperature)
+          
+        });
       if (this.energy_type === ELECTRIC_TYPE) {
         /*
          * Electric power on bills is tiered.
@@ -69,7 +79,7 @@
       }
       
       
-    });
+    }]);
     
     app.directive('graphpage', function() {
       return {
