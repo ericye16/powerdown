@@ -1,19 +1,35 @@
 (function() {
     
     //building types
-    var HOME_TYPE = "Home Owner";
-    var UNIT_TYPE = "Unit Owner";
-    var BUILDING_TYPE = "Building Owner";
+    var HOME_TYPE = "home";
+    var UNIT_TYPE = "unit";
+    var BUILDING_TYPE = "building";
+    
+    var building_types = [
+      {id: HOME_TYPE,
+        name: "Home Owner"},
+      {id: UNIT_TYPE,
+        name: "Unit Owner"},
+      {id: BUILDING_TYPE,
+        name: "Building Owner"}
+    ];
     
     //energy types
     var ELECTRIC_TYPE = "Electric";
     var GAS_TYPE = "Gas";
   
+    var energy_types = [
+      {id: ELECTRIC_TYPE,
+        name: "Electric"},
+      {id: GAS_TYPE,
+        name: "Gas"},
+    ];
+  
     var app = angular.module('powerdown', []);
     
     app.controller('InitialFormController', function($scope) {
-      $scope.building_types = [HOME_TYPE, UNIT_TYPE, BUILDING_TYPE];
-      $scope.energy_types = [ELECTRIC_TYPE, GAS_TYPE];
+      $scope.building_types = building_types;
+      $scope.energy_types = energy_types;
 
       this.building_type = "";
       this.energy_type = "";
