@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Regression Testing</h1>
+
+<p id="demo"></p>
+
+<script type="text/javascript" src="regress.js"></script>
+<script>
+var xVals=[1,2,3];
+var yVals=[2,3,4];
+var m;
+var b;
+var result=findLineByLeastSquares(xVals,yVals);
+m=result[0]
+b=result[1]
+document.write("y="+m+"x+"+b);
+</script>
+
+</body>
+</html>
