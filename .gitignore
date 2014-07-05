@@ -51,3 +51,6 @@ IOS/www/
 
 platforms
 DataCatalogue
+
+#log files
+*.log
