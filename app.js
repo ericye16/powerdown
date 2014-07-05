@@ -55,4 +55,11 @@
       
       
     });
+    
+    app.directive('graphpage', function() {
+      return {
+        restrict: 'E',
+        templateUrl: "graphpage.html",
+      }
+    })
 })();
