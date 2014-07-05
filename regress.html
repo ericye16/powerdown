@@ -7,6 +7,8 @@
 <p id="demo"></p>
 
 <script type="text/javascript" src="regress.js"></script>
+<script type="text/javascript" src="get_degree_days.js"></script>
+
 <script>
 var xVals=[1,2,3];
 var yVals=[2,3,4];
@@ -16,7 +18,10 @@ var result=findLineByLeastSquares(xVals,yVals);
 m=result[0]
 b=result[1]
 document.write("y="+m+"x+"+b);
+
+
+document.write(day_temps["2013-1-3"])
 </script>
 
 </body>
-</html>
+</html> 
