@@ -39,13 +39,13 @@
 
       this.pageNumber = 1;
       this.page = function(n) {
-        return n === this.pageNumber;
+        return n === ctrl.pageNumber;
       }
       this.backPage = function() {
-        this.PageNumber -= 1;
+        ctrl.pageNumber -= 1;
       }
       this.nextPage = function() {
-        this.PageNumber += 1;
+        ctrl.pageNumber += 1;
       }
       
       var ctrl = this;
