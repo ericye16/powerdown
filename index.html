@@ -10,7 +10,7 @@
         <h1>Powerdown</h1>
         <div class="alert alert-info" role="alert">
           <h4>
-            Please prepare at least two energy bills--we'll be asking you for some numbers off of them soon. They don't have to be from consecutive months.
+            Please prepare at least two power bills--we'll be asking you for some numbers off of them soon. They don't have to be from consecutive months.
           </h4>
         </div>
         <div class="row">
@@ -28,9 +28,27 @@
                   <input type="radio" name="energy-type" value="electric"> {{energy_type}}
                 </label>
               </div>
+              Enter the last day of the period for your first bill. </br>
+             <!-- Split button -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-default">Day</button>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </div>
+
+              <!-- buttons at the bottom of the page -->
               <ul class="pager">
-                <li class="previous disabled"><a href="#">&larr; Previous Step</a></li>
-                <li class="next"><a href="#">Next Step &rarr;</a></li>
+                <li class="previous disabled"><a href="regression.html">&larr; Previous Step</a></li>
+                <li class="next"><a href="regression.html">Next Step &rarr;</a></li>
               </ul>
             </div>
           </div>
