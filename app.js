@@ -34,6 +34,7 @@
     })
     
     app.controller('InitialFormController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+      var ctrl = this;
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
 
@@ -44,42 +45,31 @@
       this.thermostat_threshold_summer = 23;
       this.thermostat_threshold_winter = 20;
       
-      this.bills = [];
-      this.current_bill = {
-        end_date: null,
-        energy: [{
-          amount: 0,
-          rate: 0,
-        }],
-        pushEnergyPair: function(energy) {
-          energy.push({
-            amount: 0,
-            rate: 0,
-          })
-        }
-      }
       
-      this.isGas = function() {
-        return ctrl.energy_type === GAS_TYPE;
-      }
-      this.isElectric = function() {
-        return ctrl.energy_type === ELECTRIC_TYPE;
-      }
       this.pushBill = function() {
-        ctrl.bills.push(ctrl.current_bill);
-        ctrl.current_bill = {
+        ctrl.bills.push({
           end_date: null,
           energy : [{
             amount: 0,
             rate: 0,
           }],
           pushEnergyPair: function(energy) {
-          energy.push({
-            amount: 0,
-            rate: 0,
-          })
-        }
-        }
+            energy.push({
+              amount: 0,
+              rate: 0,
+            })
+          }
+        });
+      }
+      this.bills = [];
+      this.pushBill();
+      this.pushBill();
+      
+      this.isGas = function() {
+        return ctrl.energy_type === GAS_TYPE;
+      }
+      this.isElectric = function() {
+        return ctrl.energy_type === ELECTRIC_TYPE;
       }
 
       this.pageNumber = parseInt($location.hash(), 10);
@@ -98,8 +88,6 @@
         ctrl.pageNumber += 1;
         $location.hash(ctrl.pageNumber);
       }
-      
-      var ctrl = this;
       $http({method: 'GET', url: 'http://api.openweathermap.org/data/2.5/forecast?q=Toronto,ca&mode=xml'}).success(function(data) {
           //ctrl.weather = data;
           
