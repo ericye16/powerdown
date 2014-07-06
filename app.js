@@ -74,14 +74,6 @@
       }
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
-
-      this.building_type = "";
-      this.energy_type = "";
-      this.gas_supply_rate = 21.4;
-      this.gas_used = 45.86;
-      this.thermostat_threshold_summer = 23;
-      this.thermostat_threshold_winter = 20;
-      
       
       this.pushBill = function() {
         ctrl.bills.push({
@@ -98,9 +90,24 @@
           }
         });
       }
-      this.bills = [];
-      this.pushBill();
-      this.pushBill();
+      
+      var dataout = JSON.parse(localStorage.getItem('data'));
+      if (dataout !== null) {
+        this.building_type = dataout[0];
+        this.energy_type = dataout[1];
+        this.thermostat_threshold_summer = dataout[2];
+        this.thermostat_threshold_winter = dataout[3];
+        this.bills = dataout[4];
+      } else {
+        this.building_type = "";
+        this.energy_type = "";
+        this.thermostat_threshold_summer = 23;
+        this.thermostat_threshold_winter = 20;
+        
+        this.bills = [];
+        this.pushBill();
+        this.pushBill();
+      }
       
       this.isGas = function() {
         return ctrl.energy_type === GAS_TYPE;
@@ -122,7 +129,10 @@
         $location.hash(ctrl.pageNumber);
       }
       this.nextPage = function() {
-        if (ctrl.pageNumer=1){
+        if (ctrl.pageNumber === 1){
+          localStorage.setItem('data', JSON.stringify([this.building_type,
+            this.energy_type, this.thermostat_threshold_winter,
+            this.thermostat_threshold_summer, ctrl.bills]));
           perform_analysis();
         }
         ctrl.pageNumber += 1;
