@@ -115,6 +115,14 @@
       this.isElectric = function() {
         return ctrl.energy_type === ELECTRIC_TYPE;
       }
+      this.formValidated = function() {
+        return (
+          ctrl.building_type !== "" &&
+          ctrl.energy_type !== "" &&
+          !isNaN(parseFloat(ctrl.thermostat_threshold_summer)) &&
+          !isNaN(parseFloat(ctrl.thermostat_threshold_winter)) &&
+          ctrl.bills.length >= 2)
+      }
 
       this.pageNumber = parseInt($location.hash(), 10);
       if (isNaN(this.pageNumber) || this.pageNumber > 3 || this.pageNumber < 1) {
