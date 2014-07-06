@@ -121,6 +121,29 @@
       this.isElectric = function() {
         return ctrl.energy_type === ELECTRIC_TYPE;
       }
+      
+      this.billValidated = function(bill) {
+        var loopsOK = true;
+        for (var i = 0; i < bill.energy.length; i++) {
+          loopsOK = loopsOK && !isNaN(parseFloat(bill.energy[i].amount))
+          loopsOK = loopsOK && !isNaN(parseFloat(bill.energy[i].rate));
+        }
+        return (
+          bill.end_date !== '' && (new Date(bill.end_date) !== 'Invalid Date') && loopsOK);
+      }
+      this.formValidated = function() {
+        var billsOK = true;
+        for (var i = 0; i < ctrl.bills.length; i++) {
+          billsOK = billsOK && ctrl.billValidated(ctrl.bills[i]);
+        }
+        return (
+          ctrl.building_type !== "" &&
+          ctrl.energy_type !== "" &&
+          !isNaN(parseFloat(ctrl.thermostat_threshold_summer)) &&
+          !isNaN(parseFloat(ctrl.thermostat_threshold_winter)) &&
+          ctrl.bills.length >= 2 &&
+          billsOK)
+      }
 
       this.pageNumber = parseInt($location.hash(), 10);
       if (isNaN(this.pageNumber) || this.pageNumber > 3 || this.pageNumber < 1) {
