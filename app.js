@@ -91,6 +91,26 @@
         }
         set_data(hourly_dollars);
       }
+      this.next24HourTemps = [];
+      this.next24Hours = [];
+      
+      this.getData = function() {
+        $http({method: 'GET', url: 'http://api.openweathermap.org/data/2.5/forecast?q=Toronto,ca&mode=xml'}).success(function(data) {
+          //ctrl.weather = data;
+          
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(data, "application/xml");
+          ctrl.next24HourTemps = []; // Size 8
+          ctrl.next24Hours = []; // Size 8
+          
+          // Extract useful values for 24 hour projection
+          for (var i = 0; i < 8; i++) {
+            ctrl.next24HourTemps[i] = doc.getElementsByTagName("temperature")[i].getAttribute('value');
+            ctrl.next24Hours[i] = doc.getElementsByTagName("time")[i].getAttribute('from');
+          }
+        });
+      };
+      this.getData();
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
       
@@ -171,44 +191,33 @@
         this.pageNumber = 1;
         $location.hash(this.pageNumber);
       }
+      this.runOn = function(n) {
+        if (n === 2){
+          localStorage.setItem('data', JSON.stringify([this.building_type,
+            this.energy_type, this.thermostat_threshold_winter,
+            this.thermostat_threshold_summer, ctrl.bills]));
+          ctrl.getData();
+          perform_analysis();
+        }
+      }
+      this.runOn(this.pageNumber);
       this.page = function(n) {
         return n === ctrl.pageNumber;
       }
       this.backPage = function() {
         ctrl.pageNumber -= 1;
         $location.hash(ctrl.pageNumber);
+        ctrl.runOn(ctrl.pageNumber);
       }
       this.nextPage = function() {
-        if (ctrl.pageNumber === 1){
-          localStorage.setItem('data', JSON.stringify([this.building_type,
-            this.energy_type, this.thermostat_threshold_winter,
-            this.thermostat_threshold_summer, ctrl.bills]));
-          perform_analysis();
-        }
         ctrl.pageNumber += 1;
         $location.hash(ctrl.pageNumber);
+        ctrl.runOn(ctrl.pageNumber);
       }
       this.helpImage = false;
       this.helpImageToggle = function() {
         this.helpImage = (this.helpImage) ? false : true;
       }
-      $http({method: 'GET', url: 'http://api.openweathermap.org/data/2.5/forecast?q=Toronto,ca&mode=xml'}).success(function(data) {
-          //ctrl.weather = data;
-          
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(data, "application/xml");
-          ctrl.next24HourTemps = []; // Size 8
-          ctrl.next24Hours = []; // Size 8
-          
-          // Extract useful values for 24 hour projection
-          for (var i = 0; i < 8; i++) {
-            ctrl.next24HourTemps[i] = doc.getElementsByTagName("temperature")[i].getAttribute('value');
-            ctrl.next24Hours[i] = doc.getElementsByTagName("time")[i].getAttribute('from');
-          }
-          
-          // Calculate the money amounts
-          
-        });
     }]);
     
     app.directive('graphpage', function() {
