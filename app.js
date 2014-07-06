@@ -60,13 +60,17 @@
       
       var ctrl = this;
       $http({method: 'GET', url: 'http://api.openweathermap.org/data/2.5/forecast?q=Toronto,ca&mode=xml'}).success(function(data) {
-          //console.log(data);
           //ctrl.weather = data;
           
           var parser = new DOMParser();
           var doc = parser.parseFromString(data, "application/xml");
-          ctrl.weather = doc.getElementsByTagName("temperature")[0].getAttribute('value');
-          //console.log(temperature)
+          ctrl.next24HourTemps = []; // Size 8
+          ctrl.next24Hours = []; // Size 8
+          
+          for (var i = 0; i < 8; i++) {
+            ctrl.next24HourTemps[i] = doc.getElementsByTagName("temperature")[i].getAttribute('value');
+            ctrl.next24Hours[i] = doc.getElementsByTagName("time")[i].getAttribute('from');
+          }
           
         });
       if (this.energy_type === ELECTRIC_TYPE) {
