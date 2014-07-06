@@ -39,34 +39,40 @@
         var hoty=[];
         var coldx=[];
         var coldy=[];
-        for (i=0;i<ctrl.bills.length;i++){
+        for (var i=0;i<ctrl.bills.length;i++){
           var bill=ctrl.bills[i];
           var end_date=bill.end_date;
           
           var cumulative_amount=0;
           var cumulative_cost=0;
-          for(i=0;i<bill.energy.length;i++){
-            cumulative_amount+=bill.energy[i].amount;
-            cumulative_cost+=bill.energy[i].rate*bill.energy[i].amount;
+          for(var j=0;j<bill.energy.length;j++){
+            cumulative_amount+=parseFloat(bill.energy[j].amount);
+            cumulative_cost+=parseFloat(bill.energy[j].rate*bill.energy[j].amount);
           }
           
           if (start_date){
-            var hdd=heatingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_winter);
-            var cdd=coolingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_summer);
-            if (hdd>cdd){
-              console.log("Heating:")
-              console.log(hdd)
-              hotx.push(hdd)
-              hoty.push(cumulative_amount)
+            var hdd=heatingDegreeDays(start_date,end_date,parseFloat(ctrl.thermostat_threshold_winter));
+            var cdd=coolingDegreeDays(start_date,end_date,parseFloat(ctrl.thermostat_threshold_summer));
+            var cumulative_hdd=hdd[0]+hdd[1]+hdd[2];
+            var cumulative_cdd=cdd[0]+cdd[1]+cdd[2];
+            if (cumulative_hdd>cumulative_cdd){
+              console.log("Heating:");
+              console.log(cumulative_hdd);
+              hotx.push(cumulative_hdd);
+              hoty.push(cumulative_amount);
             }else{
-              console.log("Cooling")
-              console.log(cdd)
-              coldx.push(cdd);
-              coldy.push(cumulative_amount)
+              console.log("Cooling");
+              console.log(cumulative_cdd);
+              coldx.push(cumulative_cdd);
+              coldy.push(cumulative_amount);
             }
           }
           start_date=end_date;
         }
+        console.log(hotx)
+        console.log(hoty)
+        console.log(coldx)
+        console.log(coldy)
         hot_fit=findLineByLeastSquares(hotx,hoty);
         cold_fit=findLineByLeastSquares(coldx,coldy);
         console.log(hot_fit);
