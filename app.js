@@ -40,6 +40,9 @@
       this.building_type = "";
       this.energy_type = "";
       this.current_bill = {};
+      this.gas_supply_rate = 21.4;
+      this.gas_used = 45.86;
+      this.thermostat_threshold = 21;
 
       this.pageNumber = parseInt($location.hash(), 10);
       if (isNaN(this.pageNumber)|| this.pageNumber > 3 || this.pageNumber < 1) {

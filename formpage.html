@@ -3,9 +3,12 @@
     <div class="alert alert-info" role="alert">
       Prepare two or more months of heating (electric or gas) bills.
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
     <form role="form">
       <div class="form-group">
-  
         <!-- Residence options --> 
         <label for="building-type"> Select your residence type:</label>
         <label class="radio-inline" ng-repeat="building_type in building_types">
@@ -20,57 +23,69 @@
           <input type="radio" name="energy-type" value="{{energy_type.id}}" ng-model="formCtrl.energy_type"> {{energy_type.name}}
         </label>
       </div>
-      
       <!-- thermostat threshold selection --> 
-      <div class="input-group temperature">
-        <label for="thermostat-threshold"> Enter the range of your thermostat threshold </label>  
-        </br>
-        <input type="text" class="form-control bfh-number" value="25">
+      <div class="form-group temperature">
+        <label for="thermostat-threshold"> Enter the range of your thermostat threshold </label>
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="formCtrl.thermostat_threshold">
+          <div class="input-group-addon">
+            &deg;C
+          </div>
+        </div>
       </div>
-  
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <form role="form">
       <!-- billing period selection --> 
-      </br>
-      <label for="billing-period">Enter the last day of the period for your first bill. </label>
-      </br>
-      <div class="input-group date">
-        <input type="text" name="billing-period" class="form-control">
+      <div class="form-group date">
+        <label for="billing-period">Enter the last day of the period for your first bill. </label>
+        <div class="input-group">
+          <input type="text" name="billing-period" class="form-control" ng-model="formCtrl.billing_period">
           <span class="input-group-addon">
-            <i class="glyphicon glyphicon-th"></i>
+            <i class="glyphicon glyphicon-calendar"></i>
           </span>
+        </div>
       </div>
       
       <!-- Gas supply rates -->
-      </br>
-      <label for="gas-supply-rate"> Total effective gas supply rate </label>
-      </br>
-      <div class="input-group gas-supply-rate">
-        <input type="text" class="form-control bfh-number" value="21.4">
+      <div class="form-group gas-supply-rate">
+        <label for="gas-supply-rate"> Total effective gas supply rate </label>
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="formCtrl.gas_supply_rate">
+          <span class="input-group-addon">
+            &#162;/m<sup>3</sup>
+          </span>
+        </div>
       </div>
-      </br>
       
-      <label> Gas Used this period (adjusted) </label>
-      </br>
-      <div class="input-group gas-used">
-        <input type="text" class="form-control bfh-number" value="45.86">
-        <span class="input-group-addon">m3</span>
+      <div class="form-group">
+        <label> Gas Used this period (adjusted) </label>
+        <div class="input-group gas-used">
+          <input type="text" class="form-control bfh-number" value="" ng-model="formCtrl.gas_used">
+          <span class="input-group-addon">m<sup>3</sup></span>
+        </div>
       </div>
     
       
       <!-- hydro supply rates -->
-      </br>
-      <label> Total energy used </label>
-      <div class="input-group">
-        <input type="text" class="form-control">
-        <span class="input-group-addon">kWh</span>
+      <div class="form-group">
+        <label> Total energy used </label>
+        <div class="input-group">
+          <input type="text" class="form-control">
+          <span class="input-group-addon">kWh</span>
+        </div>
       </div>
       
-        
-      </br>
-      <label> Hydro Supply Costs </label>
-      <div class="input-group">
-        <span class="input-group-addon">$</span>
-        <input type="text" class="form-control">
-        <span class="input-group-addon">.00</span>
+      <div class="form-group">
+        <label> Hydro Rates </label>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <input type="text" class="form-control">
+          <span class="input-group-addon">/kWh</span>
+        </div>
       </div>
     </form>
   </div>
