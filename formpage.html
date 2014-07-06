@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12">
     <div class="alert alert-info" role="alert">
-      Prepare two or more months of heating (electric or gas) bills.
+      Prepare three or more months of heating (electric or gas) bills.
     </div>
   </div>
 </div>
@@ -13,7 +13,8 @@
       <!-- Residence options --> 
       <label for="building-type"> What are you? </label>
       <label class="radio-inline" ng-repeat="building_type in building_types">
-        <input type="radio" name="building-type" value={{building_type.id}} ng-model="formCtrl.building_type" required>{{building_type.name}}
+        <input type="radio" name="building-type" value={{building_type.id}} ng-model="formCtrl.building_type" required>
+        <img src="img/{{building_type.id}}.png" title={{building_type.name}}>
       </label>
     </div>
 
@@ -21,7 +22,8 @@
     <div class="form-group">
       <label> How is your building or home heated? </label>
       <label class="radio-inline" ng-repeat="energy_type in energy_types">
-        <input type="radio" name="energy-type" value="{{energy_type.id}}" ng-model="formCtrl.energy_type" required> {{energy_type.name}}
+        <input type="radio" name="energy-type" value="{{energy_type.id}}" ng-model="formCtrl.energy_type" required>
+        <img src="img/{{energy_type.id}}.png" title="{{energy_type.name}}">
       </label>
     </div>
   </div>
@@ -131,7 +133,7 @@
       <button type="button" class="btn btn-primary" ng-click="bill.pushEnergyPair(bill.energy)" ng-show="formCtrl.isElectric()">Add tier or other rate time</button>
       </p>
       <p>
-        <button type="button" class="btn btn-danger" ng-click="formCtrl.bills.splice($index,1)" ng-hide="formCtrl.bills.length<=2">Remove Bill</button>
+        <button type="button" class="btn btn-danger" ng-click="formCtrl.bills.splice($index,1)" ng-hide="formCtrl.bills.length<=3">Remove Bill</button>
       </p>
     </div>
   </div>
