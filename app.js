@@ -50,7 +50,7 @@
             cumulative_cost+=bill.energy[i].rate*bill.energy[i].amount;
           }
           
-          if (start_date){*
+          if (start_date){
             var hdd=heatingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_winter);
             var cdd=coolingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_summer);
             if (hdd>cdd){
