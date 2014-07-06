@@ -110,30 +110,6 @@
         });
       }
       
-      var dataout = JSON.parse(localStorage.getItem('data'));
-      if (dataout !== null) {
-        this.building_type = dataout[0];
-        this.energy_type = dataout[1];
-        this.thermostat_threshold_summer = dataout[2];
-        this.thermostat_threshold_winter = dataout[3];
-        this.bills = dataout[4];
-      } else {
-        this.building_type = "";
-        this.energy_type = "";
-        this.thermostat_threshold_summer = 23;
-        this.thermostat_threshold_winter = 20;
-        
-        this.bills = [];
-        this.pushBill();
-        this.pushBill();
-      }
-      
-      this.isGas = function() {
-        return ctrl.energy_type === GAS_TYPE;
-      }
-      this.isElectric = function() {
-        return ctrl.energy_type === ELECTRIC_TYPE;
-      }
       
       this.billValidated = function(bill) {
         var loopsOK = true;
@@ -154,10 +130,42 @@
           ctrl.energy_type !== "" &&
           !isNaN(parseFloat(ctrl.thermostat_threshold_summer)) &&
           !isNaN(parseFloat(ctrl.thermostat_threshold_winter)) &&
-          ctrl.bills.length >= 2 &&
+          ctrl.bills.length >= 3 &&
           billsOK)
       }
-
+      
+      var setup = function() {
+        ctrl.building_type = "";
+        ctrl.energy_type = "";
+        ctrl.thermostat_threshold_summer = 23;
+        ctrl.thermostat_threshold_winter = 20;
+        
+        ctrl.bills = [];
+        ctrl.pushBill();
+        ctrl.pushBill();
+        ctrl.pushBill();
+      }
+      
+      var dataout = JSON.parse(localStorage.getItem('data'));
+      if (dataout !== null) {
+        this.building_type = dataout[0];
+        this.energy_type = dataout[1];
+        this.thermostat_threshold_summer = dataout[2];
+        this.thermostat_threshold_winter = dataout[3];
+        this.bills = dataout[4];
+        if (!this.formValidated()) {
+          setup();
+        }
+      } else {
+        setup();
+      }
+      
+      this.isGas = function() {
+        return ctrl.energy_type === GAS_TYPE;
+      }
+      this.isElectric = function() {
+        return ctrl.energy_type === ELECTRIC_TYPE;
+      }
       this.pageNumber = parseInt($location.hash(), 10);
       if (isNaN(this.pageNumber) || this.pageNumber > 3 || this.pageNumber < 1) {
         this.pageNumber = 1;
