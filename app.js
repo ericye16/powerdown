@@ -29,7 +29,11 @@
   
     var app = angular.module('powerdown', ['ngAnimate']);
     
-    app.controller('InitialFormController', ['$scope', '$http', function($scope, $http) {
+    app.config(function($locationProvider) {
+      $locationProvider.html5Mode(true).hashPrefix('!');
+    })
+    
+    app.controller('InitialFormController', ['$scope', '$http', '$location', function($scope, $http, $location) {
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
 
@@ -37,15 +41,21 @@
       this.energy_type = "";
       this.current_bill = {};
 
-      this.pageNumber = 1;
+      this.pageNumber = parseInt($location.hash(), 10);
+      if (isNaN(this.pageNumber)|| this.pageNumber > 3 || this.pageNumber < 1) {
+        this.pageNumber = 1;
+        $location.hash(this.pageNumber);
+      }
       this.page = function(n) {
         return n === ctrl.pageNumber;
       }
       this.backPage = function() {
         ctrl.pageNumber -= 1;
+        $location.hash(ctrl.pageNumber);
       }
       this.nextPage = function() {
         ctrl.pageNumber += 1;
+        $location.hash(ctrl.pageNumber);
       }
       
       var ctrl = this;
