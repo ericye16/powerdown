@@ -35,25 +35,42 @@
       var ctrl = this;
       function perform_analysis(){
         var start_date;
+        var hotx=[];
+        var hoty=[];
+        var coldx=[];
+        var coldy=[];
         for (i=0;i<ctrl.bills.length;i++){
           var bill=ctrl.bills[i];
           var end_date=bill.end_date;
-          var amount=bill.energy[0];
-          var rate=bill.energy[1];
-          if (start_date){
+          
+          var cumulative_amount=0;
+          var cumulative_cost=0;
+          for(i=0;i<bill.energy.length;i++){
+            cumulative_amount+=bill.energy[i].amount;
+            cumulative_cost+=bill.energy[i].rate*bill.energy[i].amount;
+          }
+          
+          if (start_date){*
             var hdd=heatingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_winter);
             var cdd=coolingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_summer);
             if (hdd>cdd){
               console.log("Heating:")
               console.log(hdd)
+              hotx.push(hdd)
+              hoty.push(cumulative_amount)
             }else{
               console.log("Cooling")
               console.log(cdd)
+              coldx.push(cdd);
+              coldy.push(cumulative_amount)
             }
           }
-          
           start_date=end_date;
         }
+        hot_fit=findLineByLeastSquares(hotx,hoty);
+        cold_fit=findLineByLeastSquares(coldx,coldy);
+        console.log(hot_fit);
+        console.log(cold_fit);
       }
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
