@@ -1,69 +1,54 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-8">
     <h3 id="title"></h3>
     <canvas id="myChart" width="800px" height="250px"></canvas>
-    <script>
-    localStorage["daily cost"]=''
-    
-    function handle_storage(e) {
-      console.log("event")
-      if (!e) { e = window.event; }
-        if(e.key="daily cost"){
-          console.log("Setting data")
-          array=e.newValue.split(",")
-          set_data(array);
-          
-        }
-        
+  </div>
+  <div class="col-md-4">
+    <div class="alert alert-danger">
+      <h1 id="bloodystupidtext"></h1>
+    </div>
+  </div>
+</div>
+<script>
+  localStorage["daily cost"]=''
+  var integrated=0;
+  
+  function set_data(given_data){
+   var new_labels=new Array(given_data.length);
+   var float_data=new Array(given_data.length);
+   integrated = 0;
+    for(var j=0;j<8;j++){
+      console.log("iter")
+      new_labels[j]=(parseInt((new Date().getHours())/3)+(j+1)*3)%24+":00";
+      float_data[j]=given_data[j];
+      integrated+=given_data[j]*3;
     }
-    
-    if (window.addEventListener) {
-      window.addEventListener("done", handle_storage, false);
-    } else {
-      window.attachEvent("onstorage", handle_storage);
-    };
-    
-    
-    function set_data(given_data){
-
-     var new_labels=new Array(given_data.length);
-     var float_data=new Array(given_data.length);
-      var integrated=0;
-      for(var j=0;j<8;j++){
-        console.log("iter")
-        new_labels[j]=(parseInt((new Date().getHours())/3)+(j+1)*3)%24+":00";
-        float_data[j]=given_data[j];
-        integrated+=given_data[j]*3;
+    console.log(float_data);
+    console.log(new_labels);
+  
+    var data = {
+    labels: new_labels,
+    datasets: [
+      {
+          label: "",
+          fillColor: "rgba(151,187,205,0.2)",
+          strokeColor: "rgba(151,187,205,1)",
+          pointColor: "rgba(151,187,205,1)",
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "rgba(151,187,205,1)",
+          data: given_data
       }
-      console.log(float_data);
-      console.log(new_labels);
-
-      var data = {
-      labels: new_labels,
-      datasets: [
-        {
-            label: "",
-            fillColor: "rgba(151,187,205,0.2)",
-            strokeColor: "rgba(151,187,205,1)",
-            pointColor: "rgba(151,187,205,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(151,187,205,1)",
-            data: given_data
-        }
-      ]
-      };
-    
+    ]
+    };
+  
     var ctx = document.getElementById("myChart").getContext("2d");
     var myLineChart = new Chart(ctx).Line(data,{
       yAxisLabel:"Dollars Spent per Hour",
       xAxisLabel:"Time"
     });
-    var head=document.getElementById("title")
-    var node=document.getElementById("")
-    head.appendChild(node)
-    document.write("You Will Spend $"+integrated.toFixed(2)+" Heating and Cooling Tomorrow");
-    }
-    </script>
-  </div>
-</div>
+    console.log('jfkldas;fjkds;al');
+    $('#bloodystupidtext').text("You Will Spend $"+integrated.toFixed(2)+" Heating and Cooling Tomorrow");
+  }
+</script>
+
