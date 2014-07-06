@@ -39,10 +39,51 @@
 
       this.building_type = "";
       this.energy_type = "";
-      this.current_bill = {};
+      this.gas_supply_rate = 21.4;
+      this.gas_used = 45.86;
+      this.thermostat_threshold_summer = 23;
+      this.thermostat_threshold_winter = 20;
+      
+      this.bills = [];
+      this.current_bill = {
+        end_date: null,
+        energy: [{
+          amount: 0,
+          rate: 0,
+        }],
+        pushEnergyPair: function(energy) {
+          energy.push({
+            amount: 0,
+            rate: 0,
+          })
+        }
+      }
+      
+      this.isGas = function() {
+        return ctrl.energy_type === GAS_TYPE;
+      }
+      this.isElectric = function() {
+        return ctrl.energy_type === ELECTRIC_TYPE;
+      }
+      this.pushBill = function() {
+        ctrl.bills.push(ctrl.current_bill);
+        ctrl.current_bill = {
+          end_date: null,
+          energy : [{
+            amount: 0,
+            rate: 0,
+          }],
+          pushEnergyPair: function(energy) {
+          energy.push({
+            amount: 0,
+            rate: 0,
+          })
+        }
+        }
+      }
 
       this.pageNumber = parseInt($location.hash(), 10);
-      if (isNaN(this.pageNumber)|| this.pageNumber > 3 || this.pageNumber < 1) {
+      if (isNaN(this.pageNumber) || this.pageNumber > 3 || this.pageNumber < 1) {
         this.pageNumber = 1;
         $location.hash(this.pageNumber);
       }
