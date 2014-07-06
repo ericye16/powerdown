@@ -36,18 +36,13 @@ def get_temps(year,month,day):
 	return temps
 month_lengths=[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 day_temps=dict()
-year = 2012
-for month in range(1,13):
-	for day in range(1,month_lengths[month-1]+1):
-		date_str=str(year)+'-'+str(month)+'-'+str(day)
-		day_temps[date_str]=get_temps(year,month,day)
-	print('.')
-year = 2013
-for month in range(1,13):
-	for day in range(1,month_lengths[month-1]+1):
-		date_str=str(year)+'-'+str(month)+'-'+str(day)
-		day_temps[date_str]=get_temps(year,month,day)
-	print('.')
+for year in range(2007,2014):
+	for month in range(1,13):
+		for day in range(1,month_lengths[month-1]+1):
+			date_str=str(year)+'-'+str(month)+'-'+str(day)
+			day_temps[date_str]=get_temps(year,month,day)
+		print('.')
+
 year = 2014
 for month in range(1,7):
 	for day in range(1,month_lengths[month-1]+1):
