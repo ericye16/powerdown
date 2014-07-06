@@ -59,12 +59,12 @@
               console.log("Heating:");
               console.log(cumulative_hdd);
               hotx.push(cumulative_hdd);
-              hoty.push(cumulative_amount);
+              hoty.push(cumulative_cost);
             }else{
               console.log("Cooling");
               console.log(cumulative_cdd);
               coldx.push(cumulative_cdd);
-              coldy.push(cumulative_amount);
+              coldy.push(cumulative_cost);
             }
           }
           start_date=end_date;
@@ -82,9 +82,9 @@
         console.log(temps);
         for(var i=0;i<temps.length;i++){
           if(temps[i]<ctrl.thermostat_threshold_winter){
-            hourly_dollars.push(temps[i]*hot_fit[0]*3/24/100);
+            hourly_dollars.push(temps[i]*hot_fit[0]*3/24)/100;
           } else if(temps[i]>ctrl.thermostat_threshold_summer){
-            hourly_dollars.push(temps[i]*cold_fit[0]*3/24/100);
+            hourly_dollars.push(temps[i]*cold_fit[0]*3/24)/100;
           }
         }
         set_data(hourly_dollars);
