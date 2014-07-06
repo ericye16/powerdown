@@ -180,6 +180,10 @@
         ctrl.pageNumber += 1;
         $location.hash(ctrl.pageNumber);
       }
+      this.helpImage = false;
+      this.helpImageToggle = function() {
+        this.helpImage = (this.helpImage) ? false : true;
+      }
       $http({method: 'GET', url: 'http://api.openweathermap.org/data/2.5/forecast?q=Toronto,ca&mode=xml'}).success(function(data) {
           //ctrl.weather = data;
           
