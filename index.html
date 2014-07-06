@@ -13,11 +13,13 @@
       <formpage class="animate-show" ng-show="formCtrl.page(1)"></formpage>
       <graphpage class="animate-show" ng-show="formCtrl.page(2)"></graphpage>
       <improvementspage class="animate-show" ng-show="formCtrl.page(3)"></improvementspage>
-      <ul class="pager">
-        <li class="previous" ng-hide="formCtrl.page(1)"><a ng-click="formCtrl.backPage()">&larr; Previous Step</a></li>
-        <li class="next" ng-hide="formCtrl.page(3)"><a ng-click="formCtrl.nextPage()">Next Step &rarr;</a></li>
-      </ul>
-    </div>
+      <p>
+        <button type="button" class="previous btn btn-default" ng-hide="formCtrl.page(1)" ng-click="formCtrl.backPage()">
+          &larr; Previous Step
+        </button>
+        <button type="button" class="next btn btn-success pull-right" ng-hide="formCtrl.page(3)" ng-click="formCtrl.nextPage()">Next Step &rarr;</button>
+      </div>
+    </p>
     <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
