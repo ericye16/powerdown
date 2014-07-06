@@ -27,7 +27,7 @@
     
     var bills = [];
   
-    var app = angular.module('powerdown', []);
+    var app = angular.module('powerdown', ['ngAnimate']);
     
     app.controller('InitialFormController', ['$scope', '$http', function($scope, $http) {
       $scope.building_types = building_types;

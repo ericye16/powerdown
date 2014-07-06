@@ -3,15 +3,16 @@
 <head>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/datepicker3.css" />
+    <link rel="stylesheet" type="text/css" href="css/animations.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Powerdown</title>
 </head>
 <body>
     <div class="container" ng-controller="InitialFormController as formCtrl">
       <h1>Powerdown</h1>
-      <formpage ng-show="formCtrl.page(1)"></formpage>
-      <graphpage ng-show="formCtrl.page(2)"></graphpage>
-      <improvementspage ng-show="formCtrl.page(3)"></improvementspage>
+      <formpage class="animate-show" ng-show="formCtrl.page(1)"></formpage>
+      <graphpage class="animate-show" ng-show="formCtrl.page(2)"></graphpage>
+      <improvementspage class="animate-show" ng-show="formCtrl.page(3)"></improvementspage>
       <ul class="pager">
         <li class="previous" ng-hide="formCtrl.page(1)"><a ng-click="formCtrl.backPage()">&larr; Previous Step</a></li>
         <li class="next" ng-hide="formCtrl.page(3)"><a ng-click="formCtrl.nextPage()">Next Step &rarr;</a></li>
@@ -20,6 +21,7 @@
     <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-animate.min.js"></script>
     <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
     <script>$('.input-group.date').datepicker({
     });</script>
