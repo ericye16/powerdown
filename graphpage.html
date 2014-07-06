@@ -1,5 +1,6 @@
 <div class="row">
   <div class="col-md-12">
+    <h3 id="title"></h3>
     <canvas id="myChart" width="800px" height="250px"></canvas>
     <script>
     localStorage["daily cost"]=''
@@ -27,10 +28,12 @@
 
      var new_labels=new Array(given_data.length);
      var float_data=new Array(given_data.length);
+      var integrated=0;
       for(var j=0;j<8;j++){
         console.log("iter")
-        new_labels[j]=(parseInt((new Date().getHours())/3)+(j+1)*3)%12;
+        new_labels[j]=(parseInt((new Date().getHours())/3)+(j+1)*3)%24+":00";
         float_data[j]=given_data[j];
+        integrated+=given_data[j]*3;
       }
       console.log(float_data);
       console.log(new_labels);
@@ -54,7 +57,12 @@
     var ctx = document.getElementById("myChart").getContext("2d");
     var myLineChart = new Chart(ctx).Line(data,{
       yAxisLabel:"Dollars Spent per Hour",
-      xAxisLabel:"Time"});
+      xAxisLabel:"Time"
+    });
+    var head=document.getElementById("title")
+    var node=document.getElementById("myChart")
+    head.appendChild(node)
+    document.write("You Will Spend $"+integrated.toFixed(2)+" Heating and Cooling Tomorrow");
     }
     </script>
   </div>

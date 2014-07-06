@@ -82,11 +82,9 @@
         console.log(temps);
         for(var i=0;i<temps.length;i++){
           if(temps[i]<ctrl.thermostat_threshold_winter){
-            console.log(temps[i]*hot_fit[0]*3/24)
-            hourly_dollars.push(temps[i]*hot_fit[0]*3/24);
+            hourly_dollars.push(temps[i]*hot_fit[0]*3/24/100);
           } else if(temps[i]>ctrl.thermostat_threshold_summer){
-            console.log(temps[i]*cold_fit[0]*3/24)
-            hourly_dollars.push(temps[i]*cold_fit[0]*3/24);
+            hourly_dollars.push(temps[i]*cold_fit[0]*3/24/100);
           }
         }
         set_data(hourly_dollars);
