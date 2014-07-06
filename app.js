@@ -79,13 +79,13 @@
         ctrl.bills.push({
           end_date: null,
           energy : [{
-            amount: 0,
-            rate: 0,
+            amount: null,
+            rate: null,
           }],
           pushEnergyPair: function(energy) {
             energy.push({
-              amount: 0,
-              rate: 0,
+              amount: null,
+              rate: null,
             })
           }
         });
@@ -122,8 +122,9 @@
           loopsOK = loopsOK && !isNaN(parseFloat(bill.energy[i].amount))
           loopsOK = loopsOK && !isNaN(parseFloat(bill.energy[i].rate));
         }
+        console.log(bill.end_date);
         return (
-          bill.end_date !== '' && (new Date(bill.end_date) !== 'Invalid Date') && loopsOK);
+          (bill.end_date !== undefined && bill.end_date !== '' && bill.end_date !== null) && (new Date(bill.end_date) !== 'Invalid Date') && loopsOK);
       }
       this.formValidated = function() {
         var billsOK = true;
