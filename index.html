@@ -9,15 +9,9 @@
 <body>
     <div class="container" ng-controller="InitialFormController as formCtrl">
       <h1>Powerdown</h1>
-      <div class="row" ng-show="formCtrl.page(1)">
-        <formpage></formpage>
-      </div>
-      <div class="row" ng-show="formCtrl.page(2)">
-        <graphpage></graphpage>
-      </div>
-      <div class="row" ng-show="formCtrl.page(3)">
-        <improvementspage></improvementspage>
-      </div>
+      <formpage ng-show="formCtrl.page(1)"></formpage>
+      <graphpage ng-show="formCtrl.page(2)"></graphpage>
+      <improvementspage ng-show="formCtrl.page(3)"></improvementspage>
       <ul class="pager">
         <li class="previous" ng-hide="formCtrl.page(1)"><a ng-click="formCtrl.backPage()">&larr; Previous Step</a></li>
         <li class="next" ng-hide="formCtrl.page(3)"><a ng-click="formCtrl.nextPage()">Next Step &rarr;</a></li>
