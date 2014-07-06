@@ -8,7 +8,7 @@ def get_temps(year,month,day):
 	month=str(month)
 	day=str(day)
 
-	url = 'http://climate.weather.gc.ca/climateData/hourlydata_e.html?timeframe=1&Prov=ONT&StationID=48549&hlyRange=2009-12-10|2014-07-04&Year='+year+'&Month='+month+'&Day='+day#+'&cmdB1=Go#'
+	url = 'http://climate.weather.gc.ca/climateData/hourlydata_e.html?timeframe=1&Prov=ONT&StationID=31688&hlyRange=2002-06-04|2014-07-05&Year='+year+'&Month='+month+'&Day='+day#+'&cmdB1=Go#'
 	#print (url)
 
 	response = urllib2.urlopen(url)
@@ -41,6 +41,9 @@ for year in range(2007,2014):
 		for day in range(1,month_lengths[month-1]+1):
 			date_str=str(year)+'-'+str(month)+'-'+str(day)
 			day_temps[date_str]=get_temps(year,month,day)
+			if (month is 2) and (day is 28) and (year%4 is 0):
+			  date_str=str(year)+'-02-29'
+			  day_temps[date_str]=get_temps(year,2,29)
 		print('.')
 
 year = 2014

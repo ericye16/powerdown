@@ -8,10 +8,10 @@
 
 <form role="form" name="form"novalidation>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-8">
     <div class="form-group">
       <!-- Residence options --> 
-      <label for="building-type"> Select your residence type:</label>
+      <label for="building-type"> What are you? </label>
       <label class="radio-inline" ng-repeat="building_type in building_types">
         <input type="radio" name="building-type" value={{building_type.id}} ng-model="formCtrl.building_type" required>{{building_type.name}}
       </label>
@@ -19,11 +19,29 @@
 
     <!-- Bill type -->
     <div class="form-group">
-      <label> Which bill would you like to analyze? </label>
+      <label> How is your building or home heated? </label>
       <label class="radio-inline" ng-repeat="energy_type in energy_types">
         <input type="radio" name="energy-type" value="{{energy_type.id}}" ng-model="formCtrl.energy_type" required> {{energy_type.name}}
       </label>
     </div>
+    <div>
+      <p>
+      <button type="button" class="btn btn-info center-block" ng-click="formCtrl.helpImageToggle()"
+            ng-class="{'active': formCtrl.helpImage}" ng-show="formCtrl.isElectric() || formCtrl.isGas()">Help</button>
+      </p>
+    </div>
+  </div>
+  <div class="col-md-4 well" ng-show="formCtrl.helpImage && formCtrl.isElectric()">
+    <h3>Your electric bill</h3>
+    <img src="helpimgs/TorontoydroBill_Page1.png" class="img-responsive" alt="Toronto Hydro Bill">
+    <p>Enter the information from each row in the highlighted section into separate tiers below. If you have a smart metre, each on-peak, off-peak and mid-peak usages
+      should be entered as their own tier.
+    </p>
+  </div>
+  <div class="col-md-4 well" ng-show="formCtrl.helpImage && formCtrl.isGas()">
+    <h3>Your gas bill</h3>
+    <img src="helpimgs/EnbridgeBill_Page2.png" class="img-responsive" alt="Enbridge Bill">
+    <p>Enter the information from the highlighted sections below. Note that only page 2 of the bill is required.</p>
   </div>
 </div>
 <div class="row">
