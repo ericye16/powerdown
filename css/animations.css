@@ -1,0 +1,21 @@
+.animate-show {
+  -webkit-transition:all linear 0.2s;
+  transition:all linear 0.2s;
+}
+
+.animate-show.ng-enter.ng-enter-active,
+.animate-show.ng-move.ng-move-active {
+  opacity:1;
+}
+
+.amimate-show.ng-enter, .repeated-item.ng-move {
+  -webkit-transition:0.5s linear all;
+  -moz-transition:0.5s linear all;
+  -o-transition:0.5s linear all;
+  transition:0.5s linear all;
+  opacity:0;
+}
+
+.animate-show.ng-hide {
+  opacity:0;
+}
