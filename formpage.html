@@ -1,75 +1,77 @@
-<div class="col-md-12">
-  <div class="alert alert-info" role="alert">
-    Prepare two or more months of heating (electric or gas) bills.
-  </div>
-  <form role="form">
-    <div class="form-group">
-
-      <!-- Residence options --> 
-      <label for="building-type"> Select your residence type:</label>
-      <label class="radio-inline" ng-repeat="building_type in building_types">
-        <input type="radio" name="building-type" value={{building_type.id}} ng-model="formCtrl.building_type">{{building_type.name}}
-      </label>
+<div class="row">
+  <div class="col-md-12">
+    <div class="alert alert-info" role="alert">
+      Prepare two or more months of heating (electric or gas) bills.
     </div>
-
-    <!-- Bill type -->
-    <div class="form-group">
-      <label> Which bill would you like to analyze? </label>
-      <label class="radio-inline" ng-repeat="energy_type in energy_types">
-        <input type="radio" name="energy-type" value="{{energy_type.id}}" ng-model="formCtrl.energy_type"> {{energy_type.name}}
-      </label>
-    </div>
-    
-    <!-- thermostat threshold selection --> 
-    <div class="input-group temperature">
-      <label for="thermostat-threshold"> Enter the range of your thermostat threshold </label>  
-      </br>
-      <input type="text" class="form-control bfh-number" value="25">
-    </div>
-
-    <!-- billing period selection --> 
-    </br>
-    <label for="billing-period">Enter the last day of the period for your first bill. </label>
-    </br>
-    <div class="input-group date">
-      <input type="text" name="billing-period" class="form-control">
-        <span class="input-group-addon">
-          <i class="glyphicon glyphicon-th"></i>
-        </span>
-    </div>
-    
-    <!-- Gas supply rates -->
-    </br>
-    <label for="gas-supply-rate"> Total effective gas supply rate </label>
-    </br>
-    <div class="input-group gas-supply-rate">
-      <input type="text" class="form-control bfh-number" value="21.4">
-    </div>
-    </br>
-    
-    <label> Gas Used this period (adjusted) </label>
-    </br>
-    <div class="input-group gas-used">
-      <input type="text" class="form-control bfh-number" value="45.86">
-      <span class="input-group-addon">m3</span>
-    </div>
+    <form role="form">
+      <div class="form-group">
   
-    
-    <!-- hydro supply rates -->
-    </br>
-    <label> Total energy used </label>
-    <div class="input-group">
-      <input type="text" class="form-control">
-      <span class="input-group-addon">kWh</span>
-    </div>
+        <!-- Residence options --> 
+        <label for="building-type"> Select your residence type:</label>
+        <label class="radio-inline" ng-repeat="building_type in building_types">
+          <input type="radio" name="building-type" value={{building_type.id}} ng-model="formCtrl.building_type">{{building_type.name}}
+        </label>
+      </div>
+  
+      <!-- Bill type -->
+      <div class="form-group">
+        <label> Which bill would you like to analyze? </label>
+        <label class="radio-inline" ng-repeat="energy_type in energy_types">
+          <input type="radio" name="energy-type" value="{{energy_type.id}}" ng-model="formCtrl.energy_type"> {{energy_type.name}}
+        </label>
+      </div>
+      
+      <!-- thermostat threshold selection --> 
+      <div class="input-group temperature">
+        <label for="thermostat-threshold"> Enter the range of your thermostat threshold </label>  
+        </br>
+        <input type="text" class="form-control bfh-number" value="25">
+      </div>
+  
+      <!-- billing period selection --> 
+      </br>
+      <label for="billing-period">Enter the last day of the period for your first bill. </label>
+      </br>
+      <div class="input-group date">
+        <input type="text" name="billing-period" class="form-control">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-th"></i>
+          </span>
+      </div>
+      
+      <!-- Gas supply rates -->
+      </br>
+      <label for="gas-supply-rate"> Total effective gas supply rate </label>
+      </br>
+      <div class="input-group gas-supply-rate">
+        <input type="text" class="form-control bfh-number" value="21.4">
+      </div>
+      </br>
+      
+      <label> Gas Used this period (adjusted) </label>
+      </br>
+      <div class="input-group gas-used">
+        <input type="text" class="form-control bfh-number" value="45.86">
+        <span class="input-group-addon">m3</span>
+      </div>
     
       
-    </br>
-    <label> Hydro Supply Costs </label>
-    <div class="input-group">
-      <span class="input-group-addon">$</span>
-      <input type="text" class="form-control">
-      <span class="input-group-addon">.00</span>
-    </div>
-  </form>
+      <!-- hydro supply rates -->
+      </br>
+      <label> Total energy used </label>
+      <div class="input-group">
+        <input type="text" class="form-control">
+        <span class="input-group-addon">kWh</span>
+      </div>
+      
+        
+      </br>
+      <label> Hydro Supply Costs </label>
+      <div class="input-group">
+        <span class="input-group-addon">$</span>
+        <input type="text" class="form-control">
+        <span class="input-group-addon">.00</span>
+      </div>
+    </form>
+  </div>
 </div>
