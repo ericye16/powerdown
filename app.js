@@ -24,8 +24,6 @@
       {id: GAS_TYPE,
         name: "Gas"},
     ];
-    
-    var bills = [];
   
     var app = angular.module('powerdown', ['ngAnimate']);
     
@@ -33,8 +31,30 @@
       $locationProvider.html5Mode(true).hashPrefix('!');
     })
     
-    app.controller('InitialFormController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+    app.controller('InitialFormController', ['$scope', '$http', '$location', function($scope, $http, $location){
       var ctrl = this;
+      function perform_analysis(){
+        var start_date;
+        for (i=0;i<ctrl.bills.length;i++){
+          var bill=ctrl.bills[i];
+          var end_date=bill.end_date;
+          var amount=bill.energy[0];
+          var rate=bill.energy[1];
+          if (start_date){
+            var hdd=heatingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_winter);
+            var cdd=coolingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_summer);
+            if (hdd>cdd){
+              console.log("Heating:")
+              console.log(hdd)
+            }else{
+              console.log("Cooling")
+              console.log(cdd)
+            }
+          }
+          
+          start_date=end_date;
+        }
+      }
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
 
@@ -85,6 +105,9 @@
         $location.hash(ctrl.pageNumber);
       }
       this.nextPage = function() {
+        if (ctrl.pageNumer=1){
+          perform_analysis();
+        }
         ctrl.pageNumber += 1;
         $location.hash(ctrl.pageNumber);
       }
