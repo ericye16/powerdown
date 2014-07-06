@@ -1,33 +1,15 @@
 <div class="row">
   <div class="col-md-12">
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <canvas id="myChart" width="800px" height="250px"></canvas>
     <script>
-    function set_data(given_data){
-     /*
-     for(i=0;i<10;i++){
-       myLineChart.removeData();
-     }*/
-     console.log(data["labels"])
-     data["labels"]=new Array();
-     myLineChart.clear()
-     var new_labels=new Array(given_data.length);
-      for(i=0;i<given_data.length;i++){
-        new_labels[i]=parseInt((new Date().getHours())/3)+(i+1)*3;
-      }
-      console.log(given_data);
-      console.log(new_labels);
-      
-      for(i=0;i<given_data.length;i++){
-        myLineChart.addData(given_data[i],new_labels[i]);
-        myLineChart.stop();
-      }
-    }
+    localStorage["daily cost"]=''
     
     function handle_storage(e) {
+      console.log("event")
       if (!e) { e = window.event; }
         if(e.key="daily cost"){
+          console.log("Setting data")
           array=e.newValue.split(",")
-          //console.log(toString.call(array));
           set_data(array);
           
         }
@@ -35,14 +17,27 @@
     }
     
     if (window.addEventListener) {
-      window.addEventListener("storage", handle_storage, false);
+      window.addEventListener("done", handle_storage, false);
     } else {
       window.attachEvent("onstorage", handle_storage);
     };
     
+    
+    function set_data(given_data){
+
+     var new_labels=new Array(given_data.length);
+     var float_data=new Array(given_data.length);
+      for(var j=0;j<8;j++){
+        console.log("iter")
+        new_labels[j]=(parseInt((new Date().getHours())/3)+(j+1)*3)%12;
+        float_data[j]=given_data[j];
+      }
+      console.log(float_data);
+      console.log(new_labels);
+
       var data = {
-    labels: [3,6,9,12],
-    datasets: [
+      labels: new_labels,
+      datasets: [
         {
             label: "",
             fillColor: "rgba(151,187,205,0.2)",
@@ -51,15 +46,14 @@
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
-            data: [1,1,1,1]
+            data: given_data
         }
-    ]
-};
+      ]
+      };
     
     var ctx = document.getElementById("myChart").getContext("2d");
     var myLineChart = new Chart(ctx).Line(data);
-    localStorage["daily cost"]=[1,2,3]
-    
+    }
     </script>
   </div>
 </div>

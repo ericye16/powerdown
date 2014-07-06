@@ -77,6 +77,19 @@
         cold_fit=findLineByLeastSquares(coldx,coldy);
         console.log(hot_fit);
         console.log(cold_fit);
+        var temps=ctrl.next24HourTemps;
+        var hourly_dollars=[];
+        console.log(temps);
+        for(var i=0;i<temps.length;i++){
+          if(temps[i]<ctrl.thermostat_threshold_winter){
+            console.log(temps[i]*hot_fit[0]*3/24)
+            hourly_dollars.push(temps[i]*hot_fit[0]*3/24);
+          } else if(temps[i]>ctrl.thermostat_threshold_summer){
+            console.log(temps[i]*cold_fit[0]*3/24)
+            hourly_dollars.push(temps[i]*cold_fit[0]*3/24);
+          }
+        }
+        set_data(hourly_dollars);
       }
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
@@ -128,7 +141,6 @@
           loopsOK = loopsOK && !isNaN(parseFloat(bill.energy[i].amount))
           loopsOK = loopsOK && !isNaN(parseFloat(bill.energy[i].rate));
         }
-        console.log(bill.end_date);
         return (
           (bill.end_date !== undefined && bill.end_date !== '' && bill.end_date !== null) && (new Date(bill.end_date) !== 'Invalid Date') && loopsOK);
       }
