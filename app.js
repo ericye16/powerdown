@@ -7,11 +7,11 @@
     
     var building_types = [
       {id: HOME_TYPE,
-        name: "Home Owner"},
+        name: "House"},
       {id: UNIT_TYPE,
-        name: "Unit Owner"},
+        name: "Unit in condo/apartment"},
       {id: BUILDING_TYPE,
-        name: "Building Owner"}
+        name: "Residential building"}
     ];
     
     //energy types

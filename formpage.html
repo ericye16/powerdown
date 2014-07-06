@@ -11,7 +11,7 @@
   <div class="col-md-8">
     <div class="form-group">
       <!-- Residence options --> 
-      <label for="building-type"> What are you? </label>
+      <label for="building-type"> What type of property would you like to assess? </label> </br>
       <label class="radio-inline" ng-repeat="building_type in building_types">
         <input type="radio" name="building-type" value={{building_type.id}} ng-model="formCtrl.building_type" required>
         <img src="img/{{building_type.id}}.png" title={{building_type.name}}>
@@ -20,7 +20,7 @@
 
     <!-- Bill type -->
     <div class="form-group">
-      <label> How is your building or home heated? </label>
+      <label> How is your building or home heated? </label> </br>
       <label class="radio-inline" ng-repeat="energy_type in energy_types">
         <input type="radio" name="energy-type" value="{{energy_type.id}}" ng-model="formCtrl.energy_type" required>
         <img src="img/{{energy_type.id}}.png" title="{{energy_type.name}}">
@@ -50,7 +50,7 @@
   <div class="col-md-6">
     <!-- thermostat threshold selection --> 
     <div class="form-group temperature">
-      <label for="thermostat-threshold">What temperature do you set your thermostat to in the summer?</label>
+      <label for="thermostat-threshold">At what temperature do you set your thermostat in the summer?</label>
       <div class="input-group">
         <input type="text" class="form-control" ng-model="formCtrl.thermostat_threshold_summer" required>
         <div class="input-group-addon">
@@ -61,7 +61,7 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
-      <label>What temperature do you set your thermostat to in the winter?</label>
+      <label>At what temperature do you set your thermostat in the winter?</label>
       <div class="input-group">
         <input type="text" class="form-control" ng-model="formCtrl.thermostat_threshold_winter" required>
         <div class="input-group-addon">
