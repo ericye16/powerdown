@@ -8,7 +8,7 @@ def get_temps(year,month,day):
 	month=str(month)
 	day=str(day)
 
-	url = 'http://climate.weather.gc.ca/climateData/hourlydata_e.html?timeframe=1&Prov=ONT&StationID=31688&hlyRange=2002-06-04%7C2014-07-04&cmdB1=Go&Year='+year+'&Month='+month+'&Day='+day#+'&cmdB1=Go#'
+	url = 'http://climate.weather.gc.ca/climateData/hourlydata_e.html?timeframe=1&Prov=ONT&StationID=48549&hlyRange=2009-12-10|2014-07-04&Year='+year+'&Month='+month+'&Day='+day#+'&cmdB1=Go#'
 	#print (url)
 
 	response = urllib2.urlopen(url)
@@ -38,19 +38,22 @@ month_lengths=[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 day_temps=dict()
 year = 2012
 for month in range(1,13):
-	for day in range(1,month_lengths[month-1]):
+	for day in range(1,month_lengths[month-1]+1):
 		date_str=str(year)+'-'+str(month)+'-'+str(day)
 		day_temps[date_str]=get_temps(year,month,day)
+	print('.')
 year = 2013
 for month in range(1,13):
-	for day in range(1,month_lengths[month-1]):
+	for day in range(1,month_lengths[month-1]+1):
 		date_str=str(year)+'-'+str(month)+'-'+str(day)
 		day_temps[date_str]=get_temps(year,month,day)
+	print('.')
 year = 2014
 for month in range(1,7):
-	for day in range(1,month_lengths[month-1]):
+	for day in range(1,month_lengths[month-1]+1):
 		date_str=str(year)+'-'+str(month)+'-'+str(day)
 		day_temps[date_str]=get_temps(year,month,day)
+	print('.')
 with open('toronto_weather_data.json', 'wb') as fp:
     json.dump(day_temps, fp)
 
