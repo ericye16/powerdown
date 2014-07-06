@@ -35,36 +35,45 @@
       var ctrl = this;
       function perform_analysis(){
         var start_date;
+        var hotx=[];
+        var hoty=[];
+        var coldx=[];
+        var coldy=[];
         for (i=0;i<ctrl.bills.length;i++){
           var bill=ctrl.bills[i];
           var end_date=bill.end_date;
-          var amount=bill.energy[0];
-          var rate=bill.energy[1];
+          
+          var cumulative_amount=0;
+          var cumulative_cost=0;
+          for(i=0;i<bill.energy.length;i++){
+            cumulative_amount+=bill.energy[i].amount;
+            cumulative_cost+=bill.energy[i].rate*bill.energy[i].amount;
+          }
+          
           if (start_date){
             var hdd=heatingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_winter);
             var cdd=coolingDegreeDays(start_date,end_date,ctrl.thermostat_threshold_summer);
             if (hdd>cdd){
               console.log("Heating:")
               console.log(hdd)
+              hotx.push(hdd)
+              hoty.push(cumulative_amount)
             }else{
               console.log("Cooling")
               console.log(cdd)
+              coldx.push(cdd);
+              coldy.push(cumulative_amount)
             }
           }
-          
           start_date=end_date;
         }
+        hot_fit=findLineByLeastSquares(hotx,hoty);
+        cold_fit=findLineByLeastSquares(coldx,coldy);
+        console.log(hot_fit);
+        console.log(cold_fit);
       }
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
-
-      this.building_type = "";
-      this.energy_type = "";
-      this.gas_supply_rate = 21.4;
-      this.gas_used = 45.86;
-      this.thermostat_threshold_summer = 23;
-      this.thermostat_threshold_winter = 20;
-      
       
       this.pushBill = function() {
         ctrl.bills.push({
@@ -81,15 +90,38 @@
           }
         });
       }
-      this.bills = [];
-      this.pushBill();
-      this.pushBill();
+      
+      var dataout = JSON.parse(localStorage.getItem('data'));
+      if (dataout !== null) {
+        this.building_type = dataout[0];
+        this.energy_type = dataout[1];
+        this.thermostat_threshold_summer = dataout[2];
+        this.thermostat_threshold_winter = dataout[3];
+        this.bills = dataout[4];
+      } else {
+        this.building_type = "";
+        this.energy_type = "";
+        this.thermostat_threshold_summer = 23;
+        this.thermostat_threshold_winter = 20;
+        
+        this.bills = [];
+        this.pushBill();
+        this.pushBill();
+      }
       
       this.isGas = function() {
         return ctrl.energy_type === GAS_TYPE;
       }
       this.isElectric = function() {
         return ctrl.energy_type === ELECTRIC_TYPE;
+      }
+      this.formValidated = function() {
+        return (
+          ctrl.building_type !== "" &&
+          ctrl.energy_type !== "" &&
+          !isNaN(parseFloat(ctrl.thermostat_threshold_summer)) &&
+          !isNaN(parseFloat(ctrl.thermostat_threshold_winter)) &&
+          ctrl.bills.length >= 2)
       }
 
       this.pageNumber = parseInt($location.hash(), 10);
@@ -105,7 +137,10 @@
         $location.hash(ctrl.pageNumber);
       }
       this.nextPage = function() {
-        if (ctrl.pageNumer=1){
+        if (ctrl.pageNumber === 1){
+          localStorage.setItem('data', JSON.stringify([this.building_type,
+            this.energy_type, this.thermostat_threshold_winter,
+            this.thermostat_threshold_summer, ctrl.bills]));
           perform_analysis();
         }
         ctrl.pageNumber += 1;
