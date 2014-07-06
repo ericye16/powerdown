@@ -66,6 +66,10 @@
         </div>
       </div>
       
+      <script>$('.form-group.date').datepicker({
+        format: "yyyy-mm-dd"
+      });</script>
+      
       <div ng-repeat="energy in bill.energy">
         <hr>
         <!-- Gas supply rates -->
@@ -121,5 +125,3 @@
   <!-- Current -->
 </div>
 </form>
-<script>$('.form-group.date').datepicker({
-});</script>
