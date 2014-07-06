@@ -59,12 +59,12 @@
               console.log("Heating:");
               console.log(cumulative_hdd);
               hotx.push(cumulative_hdd);
-              hoty.push(cumulative_amount);
+              hoty.push(cumulative_cost);
             }else{
               console.log("Cooling");
               console.log(cumulative_cdd);
               coldx.push(cumulative_cdd);
-              coldy.push(cumulative_amount);
+              coldy.push(cumulative_cost);
             }
           }
           start_date=end_date;
@@ -77,7 +77,38 @@
         cold_fit=findLineByLeastSquares(coldx,coldy);
         console.log(hot_fit);
         console.log(cold_fit);
+        var temps=ctrl.next24HourTemps;
+        var hourly_dollars=[];
+        console.log(temps);
+        for(var i=0;i<temps.length;i++){
+          if(temps[i]<ctrl.thermostat_threshold_winter){
+            hourly_dollars.push(temps[i]*hot_fit[0]*3/24/100);
+          } else if(temps[i]>ctrl.thermostat_threshold_summer){
+            hourly_dollars.push(temps[i]*cold_fit[0]*3/24/100);
+          }
+        }
+        set_data(hourly_dollars);
       }
+      this.next24HourTemps = [];
+      this.next24Hours = [];
+      
+      this.getData = function() {
+        $http({method: 'GET', url: 'http://api.openweathermap.org/data/2.5/forecast?q=Toronto,ca&mode=xml'}).success(function(data) {
+          //ctrl.weather = data;
+          
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(data, "application/xml");
+          ctrl.next24HourTemps = []; // Size 8
+          ctrl.next24Hours = []; // Size 8
+          
+          // Extract useful values for 24 hour projection
+          for (var i = 0; i < 8; i++) {
+            ctrl.next24HourTemps[i] = doc.getElementsByTagName("temperature")[i].getAttribute('value');
+            ctrl.next24Hours[i] = doc.getElementsByTagName("time")[i].getAttribute('from');
+          }
+        });
+      };
+      this.getData();
       $scope.building_types = building_types;
       $scope.energy_types = energy_types;
       
@@ -97,30 +128,6 @@
         });
       }
       
-      var dataout = JSON.parse(localStorage.getItem('data'));
-      if (dataout !== null) {
-        this.building_type = dataout[0];
-        this.energy_type = dataout[1];
-        this.thermostat_threshold_summer = dataout[2];
-        this.thermostat_threshold_winter = dataout[3];
-        this.bills = dataout[4];
-      } else {
-        this.building_type = "";
-        this.energy_type = "";
-        this.thermostat_threshold_summer = 23;
-        this.thermostat_threshold_winter = 20;
-        
-        this.bills = [];
-        this.pushBill();
-        this.pushBill();
-      }
-      
-      this.isGas = function() {
-        return ctrl.energy_type === GAS_TYPE;
-      }
-      this.isElectric = function() {
-        return ctrl.energy_type === ELECTRIC_TYPE;
-      }
       
       this.billValidated = function(bill) {
         var loopsOK = true;
@@ -128,7 +135,6 @@
           loopsOK = loopsOK && !isNaN(parseFloat(bill.energy[i].amount))
           loopsOK = loopsOK && !isNaN(parseFloat(bill.energy[i].rate));
         }
-        console.log(bill.end_date);
         return (
           (bill.end_date !== undefined && bill.end_date !== '' && bill.end_date !== null) && (new Date(bill.end_date) !== 'Invalid Date') && loopsOK);
       }
@@ -142,53 +148,74 @@
           ctrl.energy_type !== "" &&
           !isNaN(parseFloat(ctrl.thermostat_threshold_summer)) &&
           !isNaN(parseFloat(ctrl.thermostat_threshold_winter)) &&
-          ctrl.bills.length >= 2 &&
+          ctrl.bills.length >= 3 &&
           billsOK)
       }
-
+      
+      var setup = function() {
+        ctrl.building_type = "";
+        ctrl.energy_type = "";
+        ctrl.thermostat_threshold_summer = 23;
+        ctrl.thermostat_threshold_winter = 20;
+        
+        ctrl.bills = [];
+        ctrl.pushBill();
+        ctrl.pushBill();
+        ctrl.pushBill();
+      }
+      
+      var dataout = JSON.parse(localStorage.getItem('data'));
+      if (dataout !== null) {
+        this.building_type = dataout[0];
+        this.energy_type = dataout[1];
+        this.thermostat_threshold_summer = dataout[2];
+        this.thermostat_threshold_winter = dataout[3];
+        this.bills = dataout[4];
+        if (!this.formValidated()) {
+          setup();
+        }
+      } else {
+        setup();
+      }
+      
+      this.isGas = function() {
+        return ctrl.energy_type === GAS_TYPE;
+      }
+      this.isElectric = function() {
+        return ctrl.energy_type === ELECTRIC_TYPE;
+      }
       this.pageNumber = parseInt($location.hash(), 10);
       if (isNaN(this.pageNumber) || this.pageNumber > 3 || this.pageNumber < 1) {
         this.pageNumber = 1;
         $location.hash(this.pageNumber);
       }
+      this.runOn = function(n) {
+        if (n === 2){
+          localStorage.setItem('data', JSON.stringify([this.building_type,
+            this.energy_type, this.thermostat_threshold_winter,
+            this.thermostat_threshold_summer, ctrl.bills]));
+          ctrl.getData();
+          perform_analysis();
+        }
+      }
+      this.runOn(this.pageNumber);
       this.page = function(n) {
         return n === ctrl.pageNumber;
       }
       this.backPage = function() {
         ctrl.pageNumber -= 1;
         $location.hash(ctrl.pageNumber);
+        ctrl.runOn(ctrl.pageNumber);
       }
       this.nextPage = function() {
-        if (ctrl.pageNumber === 1){
-          localStorage.setItem('data', JSON.stringify([this.building_type,
-            this.energy_type, this.thermostat_threshold_winter,
-            this.thermostat_threshold_summer, ctrl.bills]));
-          perform_analysis();
-        }
         ctrl.pageNumber += 1;
         $location.hash(ctrl.pageNumber);
+        ctrl.runOn(ctrl.pageNumber);
       }
       this.helpImage = false;
       this.helpImageToggle = function() {
         this.helpImage = (this.helpImage) ? false : true;
       }
-      $http({method: 'GET', url: 'http://api.openweathermap.org/data/2.5/forecast?q=Toronto,ca&mode=xml'}).success(function(data) {
-          //ctrl.weather = data;
-          
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(data, "application/xml");
-          ctrl.next24HourTemps = []; // Size 8
-          ctrl.next24Hours = []; // Size 8
-          
-          // Extract useful values for 24 hour projection
-          for (var i = 0; i < 8; i++) {
-            ctrl.next24HourTemps[i] = doc.getElementsByTagName("temperature")[i].getAttribute('value');
-            ctrl.next24Hours[i] = doc.getElementsByTagName("time")[i].getAttribute('from');
-          }
-          
-          // Calculate the money amounts
-          
-        });
     }]);
     
     app.directive('graphpage', function() {
