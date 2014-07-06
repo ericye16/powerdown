@@ -180,10 +180,13 @@
           ctrl.next24HourTemps = []; // Size 8
           ctrl.next24Hours = []; // Size 8
           
+          // Extract useful values for 24 hour projection
           for (var i = 0; i < 8; i++) {
             ctrl.next24HourTemps[i] = doc.getElementsByTagName("temperature")[i].getAttribute('value');
             ctrl.next24Hours[i] = doc.getElementsByTagName("time")[i].getAttribute('from');
           }
+          
+          // Calculate the money amounts
           
         });
     }]);
