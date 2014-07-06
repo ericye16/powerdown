@@ -8,7 +8,7 @@ function heatingDegreeDays(startDate,endDate,comfortableTemp){
 		var dateString=start.toISOString().substr(0,10); 
 		dateString=dateString.replace(/-0/g,"-");		
 		if (!day_temps[dateString])
-			alert(dateString)		
+			alert(dateString+" Has no temperature data")		
 		temps=(day_temps[dateString]);
 		
 		for(i=0;i<temps.length;i++){
@@ -39,11 +39,11 @@ function coolingDegreeDays(startDate,endDate,comfortableTemp){
 		var dateString=start.toISOString().substr(0,10); 
 		dateString=dateString.replace(/-0/g,"-");		
 		if (!day_temps[dateString])
-			alert(dateString)		
+			alert(dateString+" Has no temperature data")		
 		temps=(day_temps[dateString]);
 		
 		for(i=0;i<temps.length;i++){
-			var deltaT=temps[i]-comfortableTemp;	
+			var deltaT=-1*(temps[i]-comfortableTemp);	
 			if (deltaT>0){															
 				if (i>19||i<7||start.getDay()==0||start.getDay()==6)
 					offPeak+=deltaT;
