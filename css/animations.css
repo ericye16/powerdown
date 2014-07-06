@@ -19,3 +19,7 @@
 .animate-show.ng-hide {
   opacity:0;
 }
+
+div#improvements * ul {
+  list-style-type: none;
+}
